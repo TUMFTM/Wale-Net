@@ -50,9 +50,9 @@ It outputs a dictionary in the following format:
 
 | File | Description |
 |----|----|
-main.py | Used to deploy the prediction network on a CommonRoad scenario.
-train.py   | Used to train the prediction network. 
-evaluate.py | Used to evaluate a trained prediction model on the test set.
+main.py | Deploy the prediction network on a CommonRoad scenario.
+train.py   | Train the prediction network. 
+evaluate.py | Evaluate a trained prediction model on the test set.
 evaluate_online_learning.py | Ordered evaluation of an online configuration on all the scenarios.
 
 ## Data
