@@ -2,23 +2,13 @@
 
 <img src="images/network_architecture.png" alt="Network architecture" width="800"/>
 
-This repository provides an Recurrent Neural Network (RNN) for vehicle trajectory prediction with uncertainties. It builds up on the work of [Convolutional Social Pooling](https://github.com/nachiket92/conv-social-pooling). It has been adapted to CommonRoad and extended by the ability of scene understanding and online learning.
+This repository provides a Recurrent Neural Network (RNN) for vehicle trajectory prediction with uncertainties. It builds up on the work of [Convolutional Social Pooling](https://github.com/nachiket92/conv-social-pooling). It has been adapted to CommonRoad and extended by the ability of scene understanding and online learning.
 ## Requirements
 
 - Linux Ubuntu (tested on versions 16.04, 18.04 and 20.04)
 - Python >=3.6
 
 ## Installation
-
-This repository can be installed as a package for the pure usage of the prediction.
-Otherwise this repository can be cloned and requirements installed for further development.
-### A. As a package
-
-Install package:
-* `pip install --extra-index-url https://__token__:Bo8ChTzNxFdJG37x6j3K@gitlab.lrz.de/api/v4/projects/54930/packages/pypi/simple mod_prediction`
-
-
-### B. As repository
 
 Clone repository:
 * `git clone https://gitlab.lrz.de/motionplanning1/mod_prediction.git`
@@ -29,7 +19,7 @@ Install requirements:
 
 ## Deployment in Motion Planning Framework
 
-1. After packet installation import the Prediction class from  `mod_precition` e.g. with `from mod_prediction import WaleNet`. Available classes for predcition are:
+1. After installation import the Prediction class from  `mod_precition` e.g. with `from mod_prediction import WaleNet`. Available classes for predcition are:
     * `Prediction` for ground truth predictions, uncertainties are zero.
     * `WaleNet` for probability-based LSTM prediction.
 2. Initialize the class with a CommonRoad scenario with `predictor = WaleNet(<CommonRoad Scenario object>)`. *Optionally* provide a dictionary of [online_args](mod_prediction/configs/online/README.md) for the prediction with different models or for online learning*
@@ -83,6 +73,6 @@ Time for the prediction of a single vehicle takes around **10 ms** on NVIDIA V10
 
 ## References
 
-* Maximilian Geisslinger, Phillip Karle, Johannes Betz and Markus Lienkamp "Watch-and-Learn-Net: Self-supervised Online Learning for Vehicle Trajectory Prediction". *submitted to IEEE 2021 Intelligent Vehicles Symposium*
+* Maximilian Geisslinger, Phillip Karle, Johannes Betz and Markus Lienkamp "Watch-and-Learn-Net: Self-supervised Online Learning for Vehicle Trajectory Prediction". *2021 IEEE International Conference on Systems, Man and Cybernetics*
 * Nachiket Deo and Mohan M. Trivedi,"Convolutional Social Pooling for Vehicle Trajectory Prediction." CVPRW, 2018
 
