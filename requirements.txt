@@ -1,0 +1,16 @@
+torch>=1.4.0
+scipy
+progressbar2
+numpy
+opencv-python
+tensorboard>=2.0.0
+IPython
+gitpython
+matplotlib
+Pillow
+commonroad-io==2020.3
+joblib
+tqdm
+bayesian-optimization
+names
+pkbar

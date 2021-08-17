@@ -1,0 +1,4 @@
+include mod_prediction/configs/*
+include mod_prediction/configs/online/*
+include mod_prediction/trained_models/*
+include mod_prediction/trained_models/commonroad600/*
