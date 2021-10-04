@@ -395,7 +395,6 @@ def confidence_ellipse(mu, cov, ax, n_std=3.0, facecolor="red", **kwargs):
 def draw_with_uncertainty(fut_pos_list, fut_cov_list, ax):
 
     for i, fut_pos in enumerate(fut_pos_list):
-        ax.plot(fut_pos[:, 0], fut_pos[:, 1], ".c", markersize=2, alpha=0.8, zorder=15)
         for j, pos in enumerate(fut_pos):
             confidence_ellipse(
                 pos, fut_cov_list[i][j], ax, n_std=1.0, facecolor="yellow"

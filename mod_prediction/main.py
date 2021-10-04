@@ -15,13 +15,6 @@ from datetime import datetime
 import sys
 import argparse
 
-# In combination with other processes this may increase computation performance of the prediction
-# os.environ["OMP_NUM_THREADS"] = "1"  # export OMP_NUM_THREADS=1
-# os.environ["OPENBLAS_NUM_THREADS"] = "1"  # export OPENBLAS_NUM_THREADS=1
-# os.environ["MKL_NUM_THREADS"] = "1"  # export MKL_NUM_THREADS=1
-# os.environ["VECLIB_MAXIMUM_THREADS"] = "1"  # export VECLIB_MAXIMUM_THREADS=1
-# os.environ["NUMEXPR_NUM_THREADS"] = "1"  # export NUMEXPR_NUM_THREADS=1
-
 # Third party imports
 import numpy as np
 import matplotlib
@@ -69,6 +62,7 @@ class Prediction(object):
         self.__multiprocessing = multiprocessing
 
         self.time_list = []
+        self.num_obstacles_list = []
         self.online_args = None
 
     def step(self, time_step, obstacle_id_list, scenario=None):
@@ -90,8 +84,6 @@ class Prediction(object):
             self.scenario = scenario
         self.prediction_result = {}
         self.time_step = time_step
-        self.time_list = []
-        self.num_obstacles_list = []
 
         # Check if all obstacles are still in the scenario
         obstacle_id_list = self._obstacles_in_scenario(time_step, obstacle_id_list)
@@ -176,13 +168,13 @@ class Prediction(object):
         ]
         return self.cov_list
 
-    def _predict_GT(self, time_step, obstacle_id, pred_horizon=50):
+    def _predict_GT(self, time_step, obstacle_id, pred_horizon=40):
         """Returns the ground truth from the scenario as a prediction
 
         Args:
             time_step ([int]): [Current time step in CommonRoad scenario]
             obstacle_id ([int]): [Obstacle ID that should be predicted with ground truth]
-            pred_horizon (int, optional): [Number of timesteps that should be predicted]. Defaults to 50.
+            pred_horizon (int, optional): [Number of timesteps that should be predicted]. Defaults to 40.
 
         Returns:
             [np.array]: [Positions of ground truth predictions]
@@ -714,14 +706,14 @@ class WaleNet(Prediction):
         """This function optimizes the weights online.
 
         Args:
-            prediction ([XXX]): [XXX]
-            observation ([XXX]): [XXX]
+            prediction ([torch.Tensor] with shape [<pred_len>, 1, 5]): Prediction output of neural network
+            observation ([np.array] with shape [<obs_len>, 1, 2]): x,y of observation
 
         Raises:
             NotImplementedError: [If online loss is not implemented yet.]
 
         Returns:
-            [XXX]: [Float value for the calculated loss]
+            [torch.Tensor]: [Float value for the calculated loss]
         """
 
         # Observation to numpy
@@ -806,15 +798,14 @@ class WaleNet(Prediction):
     def params_switch_full_network(self):
         """Modification for switching full network (not recommended).
         This function requires that we only predict ONE obstacle at a time."""
-
         self.__create_optimizer(self.net.parameters())
 
     def __store_prediction(self, obstacle_id, prediction):
-        """This function stores a prediction in a prediction storage.
+        """Store a prediction in a prediction storage.
 
         Args:
             obstacle_id ([int]): [Obstacle ID according to CommonRoad scenario]
-            prediction ([XXX]): [XXX]
+            prediction ([torch.Tensor]): Prediction of that obstacle
         """
 
         if obstacle_id not in self.prediction_storage.keys():
@@ -843,7 +834,7 @@ class WaleNet(Prediction):
         if obstacle_id not in self.observation_storage.keys():
             self.observation_storage[obstacle_id] = {}
             self.on_update_time[obstacle_id] = self.time_step
-        # TODO: Remove old obstacles for observation storage after x timesteps of non-tracking
+
         self.observation_storage[obstacle_id][self.time_step] = (
             self.scenario._dynamic_obstacles[obstacle_id]
             .prediction.trajectory.state_list[self.time_step]
@@ -863,7 +854,7 @@ class WaleNet(Prediction):
         """Create optimizer for online learning.
 
         Args:
-            param_list ([XXX]): [XXX]
+            param_list: Parameters for optimizer
 
         Raises:
             NotImplementedError: [If optimizer is not implemented]
@@ -885,6 +876,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--agg", action="store_true", default=False)
+    parser.add_argument("--scenario", default=None)
     args = parser.parse_args()
 
     if args.agg:
@@ -893,13 +885,9 @@ if __name__ == "__main__":
         mpl_backend = "TKagg"
 
     try:
-        mopl_path = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        )
-        scenario_list = get_scenario_list(mopl_path)
-        scenario, _ = CommonRoadFileReader(os.path.join(scenario_list[2300])).open()
+        scenario, _ = CommonRoadFileReader(args.scenario).open()
     except Exception:
-        scenario_directory = "data/scenes/"
+        scenario_directory = "data/scenarios/"
         scenario_list = os.listdir(scenario_directory)
         scenario, _ = CommonRoadFileReader(
             os.path.join(scenario_directory, scenario_list[0])

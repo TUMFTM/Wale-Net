@@ -53,23 +53,23 @@ def create_dataloader(common_args, verbose=True):
         allSet = trSet
     else:
         trSet = CRDataset(
-            common_args["dataset"] + "_train.txt",
+            os.path.join(common_args["dataset"], "train.txt"),
             img_path=common_args["img_path"],
         )
         valSet = CRDataset(
-            common_args["dataset"] + "_val.txt",
+            os.path.join(common_args["dataset"], "val.txt"),
             img_path=common_args["img_path"],
         )
         try:
             tsSet = CRDataset(
-                common_args["dataset"] + "_test.txt",
+                os.path.join(common_args["dataset"], "test.txt"),
                 img_path=common_args["img_path"],
             )
             allSet = CRDataset(
                 [
-                    common_args["dataset"] + "_train.txt",
-                    common_args["dataset"] + "_val.txt",
-                    common_args["dataset"] + "_test.txt",
+                    os.path.join(common_args["dataset"], "train.txt"),
+                    os.path.join(common_args["dataset"], "val.txt"),
+                    os.path.join(common_args["dataset"], "test.txt"),
                 ],
                 img_path=common_args["img_path"],
             )

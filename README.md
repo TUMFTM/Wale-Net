@@ -38,11 +38,15 @@ It outputs a dictionary in the following format:
 
 4. *Optionally* call `predictor.get_positions()` or `predictor.get_positions()` to get a list of x,y positions or covariances of *all* predicted vehicles.
 
+To get a stand-alone prediction of a CommonRoad scenario call mod_prediction/main.py and provide a CommonRoad scenario:
+
+    python mod_prediction/main.py --scenarios <path/to/scenario>
+
 
 ## Training
 
 1. Create your desired [configuration](configs/README.md) for the prediction network and training. Start by making a copy of the [default.json](configs/default.json). 
-2. Make sure your dataset is available, either downloaded or self-created. (See Data)
+2. Make sure your dataset is available, either downloaded or self-created (see Data) or use the `--debug` argument.
 3. Execute `python train.py`. This will train a model on the given dataset specified in the configs. The result will be saved in `trained_models` and the logs in `tb_logs`
     *  `--config <path to your config>` to use your config. Per default `default.json` is used.
 
@@ -57,7 +61,7 @@ evaluate_online_learning.py | Ordered evaluation of an online configuration on a
 
 ## Data
 
-* The full dataset for training can be downloaded [here](https://syncandshare.lrz.de/dl/fiRsZFzqZAxEkWZEBHYJnSAt/commonroad.zip). Alternatively a new dataset can be generated with the `tools/commonroad_dataset.py` script.
+* The full dataset for training can be downloaded [here](https://syncandshare.lrz.de/getlink/fiEMDu8y8rNk1kNasqUqdH4r/commonroad_dataset.zip). Alternatively a new dataset can be generated with the `tools/commonroad_dataset.py` script. To start a training unpack the folders `cr_dataset` and `sc_img_cr` into the `/data/` directory and follow the steps above.
 * CommonRoad scenes can be downloaded [here](https://gitlab.lrz.de/tum-cps/commonroad-scenarios).
 
 
