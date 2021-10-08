@@ -37,7 +37,7 @@ setuptools.setup(
     name="mod_prediction",
     version=latest,
     author="Maximilian Geisslinger, Phillip Karle",
-    author_email="maximilian.geisslinger@tum.de, karle@ftm.mw.tum.de",
+    author_email="maximilian.geisslinger@tum.de, phillip.karle@tum.de",
     description="Prediction module for CommonRoad",
     long_description=long_description,
     long_description_content_type="text/markdown",
