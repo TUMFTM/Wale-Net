@@ -71,9 +71,7 @@ def evaluate_scenario(scenario, predictor, debug=False):
                 for i in obstacle_id_sub_list
             ]
         )
-        for time_step in range(
-            predictor.min_obs_length, max_time_steps
-        ):
+        for time_step in range(predictor.min_obs_length, max_time_steps):
 
             # Ignore objects that already disappeared from the scene
             obstacle_id_sub_list = [
@@ -234,11 +232,12 @@ if __name__ == "__main__":
         os.makedirs(results_path)
 
     # Save arguments + commit to results directory
-    with open(os.path.join(results_path, "config.json"), "w") as fi:
-        json.dump(online_args, fi)
+    with open(os.path.join(results_path, "config.json"), "w") as fi_re:
+        json.dump(online_args, fi_re)
 
     # Serialize loss_storage into file:
-    json.dump(loss_storage, open(os.path.join(results_path, "loss_storage.json"), "w"))
+    with open(os.path.join(results_path, "loss_storage.json"), "w") as fi_lo:
+        json.dump(loss_storage, fi_lo)
 
     analyse_loss_storage(loss_storage, results_path)
 

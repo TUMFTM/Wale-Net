@@ -1,3 +1,4 @@
+"""Script with tools to analyze prediction performance."""
 import json
 import os
 import csv
@@ -96,6 +97,7 @@ def get_loss_over_scenarios(loss_storage, loss_type="nll"):
 
 
 def write_results_to_csv(nll_mean, rmse_mean, file_name, results_path=None):
+    "write results to csv."
     with open(os.path.join(results_path, file_name + ".csv"), "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["nll_mean", "rmse_mean"])
@@ -158,6 +160,7 @@ def plot_results(
 
 
 def count_elements_in_loss_storage(loss_storage):
+    """count elements in nll storage."""
     count = 0
     for a in loss_storage["nll"].keys():
         for b in loss_storage["nll"][a].keys():
