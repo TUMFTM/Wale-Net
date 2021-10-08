@@ -41,7 +41,6 @@ from mod_prediction.utils.model import predictionNet
 from mod_prediction.utils.neural_network import NLL, MSE
 from mod_prediction.utils.visualization import draw_uncertain_predictions
 from mod_prediction.utils.cuda import cudanize
-from mod_prediction.utils.dataset import get_scenario_list
 
 
 class Prediction(object):
@@ -475,11 +474,6 @@ class WaleNet(Prediction):
         else:
             fut_pred = self.net(hist, nbrs, sc_img)
 
-        # # debug
-        # img = draw_in_scene(fut_pred, sc_img)
-        # cv2.imshow('Scene image', img)
-        # cv2.waitKey(0)
-
         return fut_pred
 
     def _postprocessing(self, fut_pred, obstacle_id):
@@ -876,6 +870,8 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--agg", action="store_true", default=False)
+    parser.add_argument("--save_fig", action="store_true", default=False)
+    parser.add_argument("--logging", action="store_true", default=False)
     parser.add_argument("--scenario", default=None)
     args = parser.parse_args()
 
@@ -938,9 +934,13 @@ if __name__ == "__main__":
                     print("Dynamic obstacle dissapeared.")
 
             plt.pause(1e-5)
-            # plt.savefig('./{0}.png'.format(time_step))
+            if args.save_fig:
+                plt.savefig("./{0}.png".format(time_step))
 
         time_step += 1
 
-    # print = logging.info  # Write report to logging file
+    # Write report to logging file
+    if args.logging:
+        print = logging.info
+
     predictor.time_report()

@@ -144,16 +144,6 @@ def evaluate_scenario(scenario, predictor, debug=False):
         if debug:
             break
 
-            # fut_pos_list = predictor.get_positions()
-            # fut_cov_list = predictor.get_covariance()
-
-            # ax.cla()
-            # draw_object(scenario, draw_params={'time_begin': time_step})
-            # draw_with_uncertainty(fut_pos_list, fut_cov_list, ax)
-            # plt.gca().set_aspect('equal')
-
-            # plt.pause(1e-5)
-
     return loss_storage
 
 

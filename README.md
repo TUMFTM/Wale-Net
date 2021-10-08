@@ -27,9 +27,9 @@ Install requirements:
 It outputs a dictionary in the following format:
     ```
     prediction_result = {
-        obstacle_id: {
-            'pos_list': [list] list of x,y positions of the predicted trajectory in m
-            'cov_list': [list] list of 2x2 covariance matrices for uncertainties
+        <obstacle_id>: {
+            'pos_list': [np.ndarray] array n x 2 with x,y positions of the predicted trajectory in m
+            'cov_list': [np.ndarray] array n x 2 x 2 with 2D-covariance matrices for uncertainties
         }
         ...
     }
@@ -40,7 +40,7 @@ It outputs a dictionary in the following format:
 
 To get a stand-alone prediction of a CommonRoad scenario call mod_prediction/main.py and provide a CommonRoad scenario:
 
-    python mod_prediction/main.py --scenarios <path/to/scenario>
+    python mod_prediction/main.py --scenario <path/to/scenario>
 
 
 ## Training

@@ -213,10 +213,6 @@ def parse_scene(file_name, shrink_percentage=shrink_percentage):
                     img_gray,
                 )
 
-            # Reload scenario to keep original orientation and translation
-            # Removed as it does not seem necessary anymore
-            # scenario, _ = CommonRoadFileReader(file_name).open()
-
             if args.debug:
                 img = draw_in_scene(fut, img_gray, nbr_utils=[r1, r2, pir_list])
                 cv2.imshow("Debug visualization", img)
