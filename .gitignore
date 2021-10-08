@@ -14,6 +14,7 @@ tb_*
 *.tar
 *.log
 *.csv
+venv*
 
 venv_*
 # Allow
