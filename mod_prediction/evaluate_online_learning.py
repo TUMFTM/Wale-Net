@@ -73,7 +73,7 @@ def evaluate_scenario(scenario, predictor, debug=False):
         )
         for time_step in range(
             predictor.min_obs_length, max_time_steps
-        ):  # TODO: Flexible as there may be more time steps available
+        ):
 
             # Ignore objects that already disappeared from the scene
             obstacle_id_sub_list = [
@@ -95,11 +95,6 @@ def evaluate_scenario(scenario, predictor, debug=False):
                     loss_storage["nll"][scenario.benchmark_id][obst_id] = {}
                 if obst_id not in loss_storage["rmse"][scenario.benchmark_id].keys():
                     loss_storage["rmse"][scenario.benchmark_id][obst_id] = {}
-
-                # prediction storage is only filled with real predictions which might not start from the beginning (e.g. predict_GT in first time steps)
-                # if obst_id not in predictor.prediction_storage.keys():
-                #     continue
-                # TODO: Check if prediction was made via _predict_GT
 
                 # Get ground truth
                 ground_truth = np.expand_dims(
