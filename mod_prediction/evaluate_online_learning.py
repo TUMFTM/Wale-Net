@@ -110,7 +110,7 @@ def evaluate_scenario(scenario, predictor, debug=False):
                 if ground_truth.shape[0] == 0:
                     continue
 
-                # get preidction result for current object in the needed form
+                # get prediction result for current object in the needed form
                 prediction = prediction_result[obst_id]
                 sigmas = get_sigmas_from_covariance(prediction["cov_list"])
 
