@@ -45,7 +45,7 @@ To get a stand-alone prediction of a CommonRoad scenario call mod_prediction/mai
 
 ## Training
 
-1. Create your desired [configuration](configs/README.md) for the prediction network and training. Start by making a copy of the [default.json](configs/default.json). 
+1. Create your desired [configuration](mod_prediction/configs/README.md) for the prediction network and training. Start by making a copy of the [default.json](mod_prediction/configs/default.json). 
 2. Make sure your dataset is available, either downloaded or self-created (see [Data](https://github.com/TUMFTM/Wale-Net#data)) or use the `--debug` argument.
 3. Execute `python train.py`. This will train a model on the given dataset specified in the configs. The result will be saved in `trained_models` and the logs in `tb_logs`
     *  Add the argument `--config <path to your config>` to use your config. Per default `default.json` is used.
