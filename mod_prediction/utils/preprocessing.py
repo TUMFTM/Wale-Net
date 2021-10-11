@@ -203,9 +203,7 @@ def generate_scimg(
         img_gray [np.array] -- [Black and white image with 256 x 256 pixels of the scene]
     """
     my_dpi = 300
-    draw_fig = plt.figure(
-        figsize=(256 / my_dpi, 256 / my_dpi), dpi=my_dpi
-    )  # 40 ms --> TODO shift outside the loop
+    draw_fig = plt.figure(figsize=(256 / my_dpi, 256 / my_dpi), dpi=my_dpi)
 
     if theta > 2 * np.pi:
         theta -= 2 * np.pi

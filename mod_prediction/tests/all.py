@@ -143,11 +143,6 @@ for time_step, data in enumerate(tsDataloader):
     if not np.allclose(l_nll.detach().numpy(), in_l_nll.detach().numpy(), atol=1e-3):
         raise ValueError("nll and in_nll values do not match!")
 
-    # ground_truth_trans = transform_back(np.squeeze(ground_truth.detach().numpy()), translation, rotation)
-    # ground_truth_trans = np.expand_dims(ground_truth_trans, axis=1)
-
-    # _, l_nll_trans = NLL(in_fut_pred_world, torch.from_numpy(ground_truth_trans))
-
     # ------- Plot ----------
     # Real world
     ax.cla()
@@ -156,16 +151,5 @@ for time_step, data in enumerate(tsDataloader):
     plt.plot(in_ground_truth[:, 0, 0], in_ground_truth[:, 0, 1], "gx", zorder=25)
     plt.plot(ground_truth_world[:, 0], ground_truth_world[:, 1])
     plt.axis("equal")
-
-    # Prediction coordinates
-    # fig2, ax2 = plt.subplots()
-    # plt.plot(ground_truth[:, 0, 0], ground_truth[:, 0, 1])
-    # sigma_x = 1 / fut_pred[:, 0, 2].detach().numpy()
-    # sigma_y = 1 / fut_pred[:, 0, 3].detach().numpy()
-    # rho = fut_pred[:, 0, 4].detach().numpy()
-
-    # sigma_cov = np.array([[sigma_x**2, rho * sigma_x * sigma_y], [rho * sigma_x * sigma_y, sigma_y**2]])
-    # draw_with_uncertainty([fut_pred[:, 0, :2].detach().numpy()], sigma_cov, ax2)
-    # plt.axis('equal')
 
     plt.pause(2)

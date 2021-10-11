@@ -1,3 +1,4 @@
+"""Script to generate a dataset form CommonRoad scenarios."""
 # Standard imports
 import sys
 import os
@@ -94,6 +95,7 @@ if args.small:
 
 
 def parse_scene(file_name, shrink_percentage=shrink_percentage):
+    """parse scenes from CommonRoad to required input format for the net."""
 
     try:
         scenario, _ = CommonRoadFileReader(file_name).open()
@@ -211,10 +213,6 @@ def parse_scene(file_name, shrink_percentage=shrink_percentage):
                     img_gray,
                 )
 
-            # Reload scenario to keep original orientation and translation
-            # Removed as it does not seem necessary anymore
-            # scenario, _ = CommonRoadFileReader(file_name).open()
-
             if args.debug:
                 img = draw_in_scene(fut, img_gray, nbr_utils=[r1, r2, pir_list])
                 cv2.imshow("Debug visualization", img)
@@ -226,7 +224,7 @@ def parse_scene(file_name, shrink_percentage=shrink_percentage):
 
 
 def calc_split_idx(scenario_list_length, val_split=0.2, test_split=0.2):
-
+    """calculate index to split scenario list."""
     train_split = 1 - val_split - test_split
     length = scenario_list_length
 
@@ -237,6 +235,7 @@ def calc_split_idx(scenario_list_length, val_split=0.2, test_split=0.2):
 
 
 def split_data(online=False):
+    """Split data in training, validation and test."""
 
     # Scenario list
     scenario_list.sort()
@@ -281,6 +280,7 @@ def split_data(online=False):
 
 
 def encode_results(result_list):
+    """Encode results from results list to respective features."""
     # Encode results_list
     hist_list = []
     fut_list = []
@@ -298,6 +298,7 @@ def encode_results(result_list):
 
 
 def calculate_dataset(scenario_list, dataset_name):
+    """dump dataset."""
 
     print("Calculating {} ...".format(dataset_name))
 

@@ -1,3 +1,4 @@
+"""Script to rename images."""
 import os
 
 directory = "data/sc_test/"

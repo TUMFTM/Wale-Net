@@ -71,9 +71,7 @@ def evaluate_scenario(scenario, predictor, debug=False):
                 for i in obstacle_id_sub_list
             ]
         )
-        for time_step in range(
-            predictor.min_obs_length, max_time_steps
-        ):  # TODO: Flexible as there may be more time steps available
+        for time_step in range(predictor.min_obs_length, max_time_steps):
 
             # Ignore objects that already disappeared from the scene
             obstacle_id_sub_list = [
@@ -96,11 +94,6 @@ def evaluate_scenario(scenario, predictor, debug=False):
                 if obst_id not in loss_storage["rmse"][scenario.benchmark_id].keys():
                     loss_storage["rmse"][scenario.benchmark_id][obst_id] = {}
 
-                # prediction storage is only filled with real predictions which might not start from the beginning (e.g. predict_GT in first time steps)
-                # if obst_id not in predictor.prediction_storage.keys():
-                #     continue
-                # TODO: Check if prediction was made via _predict_GT
-
                 # Get ground truth
                 ground_truth = np.expand_dims(
                     predictor._predict_GT(time_step, obst_id), axis=1
@@ -110,7 +103,7 @@ def evaluate_scenario(scenario, predictor, debug=False):
                 if ground_truth.shape[0] == 0:
                     continue
 
-                # get preidction result for current object in the needed form
+                # get prediction result for current object in the needed form
                 prediction = prediction_result[obst_id]
                 sigmas = get_sigmas_from_covariance(prediction["cov_list"])
 
@@ -150,16 +143,6 @@ def evaluate_scenario(scenario, predictor, debug=False):
 
         if debug:
             break
-
-            # fut_pos_list = predictor.get_positions()
-            # fut_cov_list = predictor.get_covariance()
-
-            # ax.cla()
-            # draw_object(scenario, draw_params={'time_begin': time_step})
-            # draw_with_uncertainty(fut_pos_list, fut_cov_list, ax)
-            # plt.gca().set_aspect('equal')
-
-            # plt.pause(1e-5)
 
     return loss_storage
 
@@ -239,11 +222,12 @@ if __name__ == "__main__":
         os.makedirs(results_path)
 
     # Save arguments + commit to results directory
-    with open(os.path.join(results_path, "config.json"), "w") as fi:
-        json.dump(online_args, fi)
+    with open(os.path.join(results_path, "config.json"), "w") as fi_re:
+        json.dump(online_args, fi_re)
 
     # Serialize loss_storage into file:
-    json.dump(loss_storage, open(os.path.join(results_path, "loss_storage.json"), "w"))
+    with open(os.path.join(results_path, "loss_storage.json"), "w") as fi_lo:
+        json.dump(loss_storage, fi_lo)
 
     analyse_loss_storage(loss_storage, results_path)
 
